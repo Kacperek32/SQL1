@@ -1,4 +1,3 @@
-# ex_03.py
 import sqlite3
 
 def create_connection(db_file):
@@ -22,8 +21,8 @@ def add_project(conn, projekt):
    :param projekt:
    :return: project id
    """
-   sql = '''INSERT INTO projects(nazwa, start_date, end_date)
-             VALUES(?,?,?)'''
+   sql = '''INSERT INTO projects(Tytul, Autor, Wydanie, Wypoczyczona)
+             VALUES(?,?,?,?)'''
    cur = conn.cursor()
    cur.execute(sql, projekt)
    conn.commit()
@@ -44,21 +43,12 @@ def add_task(conn, task):
    return cur.lastrowid
 
 if __name__ == "__main__":
-   projekt = ("Pompeczki", "2020-05-12 14:00:00", "2020-05-12 14:30:00")
+   projekt = ("Hobbit", "J.K. Rowling", "2000", "TAK")
 
    conn = create_connection("database.db")
    pr_id = add_project(conn, projekt)
 
-   task = (
-       pr_id,
-       "Czasowniki regularne",
-       "Zapamiętaj czasowniki ze strony 30",
-       "started",
-       "2020-05-11 12:00:00",
-       "2020-05-11 15:00:00"
-   )
-
-   task_id = add_task(conn, task)
+   task_id = add_task(conn)
 
    print(pr_id, task_id)
    conn.commit()
